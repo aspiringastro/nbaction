@@ -1,5 +1,1 @@
-wheel
-jupyter
-nbconvert
-jupyter-book
 pytest
