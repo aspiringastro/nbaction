@@ -46,4 +46,12 @@ runs:
       id: nbaction
       run: python src/nbaction.py
       shell: bash
+    - name: Commit generated files
+      run: |
+        git config user.email "action@github.com"
+        git config user.name "GitHub Actions"
+        git add --all
+        git commit -m "Notebooks auto-publish"
+        git push 
+      shell: bash
 
