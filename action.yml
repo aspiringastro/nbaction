@@ -29,8 +29,6 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Install Python
       uses: actions/setup-python@v4
       with:
@@ -48,6 +46,4 @@ runs:
       id: nbaction
       run: python src/nbaction.py
       shell: bash
-    - name: commit updated files
-      uses: peter-evans/create-pull-request@v4
 

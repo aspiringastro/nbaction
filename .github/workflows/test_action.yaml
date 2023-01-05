@@ -17,7 +17,5 @@ jobs:
           nbtarget: 'target/note'
           nbdoc: 'target/html'
           nbcommon: 'numpy pandas matplotlib '
-      - name: Show the result
-        run: |
-          echo "committed=${{ steps.nbaction.outputs.committed }}" >> $GITHUB_OUTPUT
-          echo "commitSHA=${{ steps.nbaction.outputs.commitSHA }}" >> $GITHUB_OUTPUT
+      - name: commit
+        uses: peter-evans/create-pull-request@v4
