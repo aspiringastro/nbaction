@@ -1,17 +1,16 @@
 # action.yaml
 name: 'Notebook Publish Github Action'
-description: 'A Github Action that takes an input and returns the square of the number'
+description: 'A Github Action that takes a sequence of notebooks and executes, then publishes them in specified folders'
 inputs:
   nbsource:
-    description: 'Notebook source folder name'
+    description: 'Notebook source files'
     required: true
-    default: 'src'
   nbtarget:
     description: 'Notebook target folder name (contains executed notebooks)'
     required: true
     default: 'target/note'
   nbdoc:
-    description: 'Notebook target folder name for HTML (contains converted webpages)'
+    description: 'Notebook target folder name for HTML (contains converted html docs)'
     required: true
     default: 'target/doc'
   nbcommon:
@@ -19,12 +18,9 @@ inputs:
     required: false
     default: ''
 outputs:
-  committed:
-    description: 'Whether the nbaction was committed'
-    value: ${{ steps.nbaction.outputs.committed }}
-  commitSHA:
-    description: 'short SHA of the committed change'
-    value: ${{ steps.nbaction.outputs.commit_sha }}
+  processed:
+    description: 'list of processed output files'
+    value: ${{ steps.nbaction.outputs.processed }}
 
 runs:
   using: 'composite'
@@ -38,7 +34,7 @@ runs:
     - name: Update Dependencies and env variables
       run: |
         python -m pip install --upgrade pip -r requirements.txt
-        echo "NB_SOURCE_PATH=${{ inputs.nbsource }}" >> $GITHUB_ENV
+        echo "NB_SOURCES=${{ inputs.nbsource }}" >> $GITHUB_ENV
         echo "NB_TARGET_PATH=${{ inputs.nbtarget }}" >> $GITHUB_ENV
         echo "NB_DOC_PATH=${{ inputs.nbdoc }}" >> $GITHUB_ENV
       shell: bash
@@ -50,8 +46,9 @@ runs:
       run: |
         git config user.email "action@github.com"
         git config user.name "GitHub Actions"
-        git add --all
-        git commit -m "Notebooks auto-publish"
-        git push 
+        for file in ${{ steps.nbaction.outputs.processed }}; do
+          echo "Adding $file to PR"
+          git add file
+        done
       shell: bash
 
