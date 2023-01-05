@@ -16,6 +16,7 @@ jobs:
           nbinput: 'src'
           nboutput: 'target/note'
           nbhtml: 'target/html'
+          nbcommon: 'numpy pandas matplotlib '
       - name: Show the result
         run: |
           echo "Committed:${{ steps.nbaction.outputs.committed }}" >> $GITHUB_OUTPUT

@@ -14,6 +14,10 @@ inputs:
     description: 'Notebook target folder name for HTML (contains converted webpages)'
     required: true
     default: 'target/html'
+  nbcommon:
+    description: 'Notebook common dependencies that are expected to be present instead of installed within the notebook'
+    required: false
+    default: ''
 outputs:
   committed:
     description: 'Whethher the nbaction was committed'
@@ -37,6 +41,7 @@ runs:
     - name: Update notebooks
       run: |
           python -m pip install nbconvert nbformat
+          [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nboutput }}
           mkdir -p ${{ inputs.nboutput }}
           mkdir -p ${{ inputs.nbhtml }}
           for n in ${{ inputs.nbinput }}/*.ipynb; do jupyter nbconvert --to notebook --execute "$n" --output-dir=${{ inputs.nboutput }}/; done
