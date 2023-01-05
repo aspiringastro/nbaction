@@ -21,7 +21,7 @@ def publish_notebook(src, target):
     subprocess.run(cmd)
 
 repo_workspace = os.environ.get("GITHUB_WORKSPACE", '.')
-sources = os.path.join(repo_workspace, os.environ.get("NB_SOURCES"))
+sources = os.environ.get("NB_SOURCES", '').split(' ')
 target_path = os.path.join(repo_workspace, os.environ.get("NB_TARGET_PATH", 'target/note'))
 doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", 'target/doc'))
 
