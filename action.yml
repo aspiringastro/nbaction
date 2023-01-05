@@ -2,25 +2,25 @@
 name: 'Notebook Publish Github Action'
 description: 'A Github Action that takes an input and returns the square of the number'
 inputs:
-  nbinput:
+  nbsource:
     description: 'Notebook source folder name'
     required: true
     default: 'src'
-  nboutput:
+  nbtarget:
     description: 'Notebook target folder name (contains executed notebooks)'
     required: true
     default: 'target/note'
-  nbhtml:
+  nbdoc:
     description: 'Notebook target folder name for HTML (contains converted webpages)'
     required: true
-    default: 'target/html'
+    default: 'target/doc'
   nbcommon:
     description: 'Notebook common dependencies that are expected to be present instead of installed within the notebook'
     required: false
     default: ''
 outputs:
   committed:
-    description: 'Whethher the nbaction was committed'
+    description: 'Whether the nbaction was committed'
     value: ${{ steps.nbaction.outputs.committed }}
   commitSHA:
     description: 'short SHA of the committed change'
@@ -37,35 +37,19 @@ runs:
         python-version: '3.10'
         # caching pip dependencies
         cache: 'pip'
-    - name: Install Dependencies
-      run: python -m pip install --upgrade pip -r requirements.txt
-      shell: bash
-    - name: Update notebooks
+    - name: Update Dependencies and Environment variable
       run: |
-          pwd
-          python -m pip install nbconvert nbformat
-          [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nbcommon }}
-          mkdir -p ${{ inputs.nboutput }}
-          mkdir -p ${{ inputs.nbhtml }}
-          GIT_PR_FILES=
-          for n in ${{ inputs.nbinput }}/*.ipynb; do \
-            GIT_PR_FILES="$n $GIT_PR_FILES" \
-            nbout=$GITHUB_WORKSPACE/${{ inputs.nboutput }} \
-            mkdir -p $nbout \
-            jupyter nbconvert --to notebook --execute "$n" --output-dir=$nbout; \
-          done
-          for n in ${{ inputs.nboutput }}/*.ipynb; do \
-            nbout=$GITHUB_WORKSPACE/${{ inputs.nbhtml }} \
-            mkdir -p $nbout \
-            GIT_PR_FILES="$n $GIT_PR_FILES" \
-            jupyter nbconvert --to html "$n" --output-dir=$nbout; \
-          done
-          echo "GIT_PR_FILES=$GIT_PR_FILES" >> $GITHUB_ENV
-          echo "Workspace: $GITHUB_WORKSPACE Processed: $GIT_PR_FILES"
+        python -m pip install --upgrade pip -r requirements.txt
+        echo "NB_SOURCE_PATH=${{ inputs.nbsource }}" >> $GITHUB_ENV
+        echo "NB_TARGET_PATH=${{ inputs.nbtarget }}" >> $GITHUB_ENV
+        echo "NB_DOC_PATH=${{ inputs.nbdoc }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Run nbaction
+      id: nbaction
+      run: python src/nbaction.py
       shell: bash
     - name: commit updated files
       uses: EndBug/add-and-commit@v9
-      id: nbaction
       with:
         default_author: github_actions
         message: Show github actions logo

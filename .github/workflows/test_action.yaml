@@ -13,9 +13,9 @@ jobs:
         id: commit
         uses: ./ 
         with:
-          nbinput: 'src'
-          nboutput: 'target/note'
-          nbhtml: 'target/html'
+          nbsource: 'src'
+          nbtarget: 'target/note'
+          nbdoc: 'target/html'
           nbcommon: 'numpy pandas matplotlib '
       - name: Show the result
         run: |
