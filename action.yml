@@ -67,6 +67,6 @@ runs:
         message: Show github actions logo
         committer_name: Github Actions
         commit: --signoff
-        add: ['${{ inputs.nbhtml }}/*', '${{ inputs.nboutput }}/*']
+        add: [ "${{ inputs.nbhtml }}\/*", "${{ inputs.nboutput }}\/*"]
         cwd: $GITHUB_WORKSPACE
 
