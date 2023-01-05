@@ -14,10 +14,14 @@ inputs:
     description: 'Notebook target folder name for HTML (contains converted webpages)'
     required: true
     default: 'target/html'
-  num:
-    description: 'Enter a number'
-    required: true
-    default: "1"
+outputs:
+  committed:
+    description: 'Whethher the nbaction was committed'
+    value: ${{ steps.nbaction.outputs.committed }}
+  commitSHA:
+    description: 'short SHA of the committed change'
+    value: ${{ steps.nbaction.outputs.commit_sha }}
+
 runs:
   using: 'composite'
   steps:
@@ -30,8 +34,6 @@ runs:
     - name: Install Dependencies
       run: python -m pip install --upgrade pip -r requirements.txt
       shell: bash
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Update notebooks
       run: |
           python -m pip install nbconvert nbformat
@@ -42,8 +44,12 @@ runs:
       shell: bash
     - name: commit updated files
       uses: EndBug/add-and-commit@v9
-      id: commit
+      id: nbaction
       with:
-        author_name: Astro Bot
+        default_author: github_actions
+        message: Show github actions logo
+        committer_name: Github Actions
         commit: --signoff
+        add: ${{ inputs.nboutput }}/*.ipynb ${{ inputs.nbhtml }}/*.html
+
 
