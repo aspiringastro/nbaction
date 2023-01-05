@@ -47,8 +47,17 @@ runs:
           [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nbcommon }}
           mkdir -p ${{ inputs.nboutput }}
           mkdir -p ${{ inputs.nbhtml }}
-          for n in ${{ inputs.nbinput }}/*.ipynb; do jupyter nbconvert --to notebook --execute "$n" --output-dir=${{ inputs.nboutput }}/; done
-          for n in ${{ inputs.nboutput }}/*.ipynb; do jupyter nbconvert --to html "$n" --output-dir=${{ inputs.nbhtml }}/; done
+          for n in ${{ inputs.nbinput }}/*.ipynb; do \
+            GIT_PR_FILES = "$n $GIT_PR_FILES"
+            jupyter nbconvert --to notebook --execute "$n" --output-dir=${{ inputs.nboutput }}/; \
+          done
+          for n in ${{ inputs.nboutput }}/*.ipynb; do \
+            GIT_PR_FILES = "$n $GIT_PR_FILES"
+            jupyter nbconvert --to html "$n" --output-dir=${{ inputs.nbhtml }}/; \
+          done
+          echo "GIT_PR_FILES=$GIT_PR_FILES" >> $GITHUB_ENV
+          echo "Workspace: $GITHUB_WORKSPACE Processed: $GIT_PR_FILES" >> $GITHUB_OUTPUT
+          echo 
       shell: bash
     - name: commit updated files
       uses: EndBug/add-and-commit@v9
@@ -58,6 +67,6 @@ runs:
         message: Show github actions logo
         committer_name: Github Actions
         commit: --signoff
-        add: ${{ inputs.nboutput }}/*.ipynb ${{ inputs.nbhtml }}/*.html
+        add: $GIT_PR_FILES
         cwd: $GITHUB_WORKSPACE
 
