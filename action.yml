@@ -67,5 +67,4 @@ runs:
         message: Show github actions logo
         committer_name: Github Actions
         commit: --signoff
-        cwd: $GITHUB_WORKSPACE
 
