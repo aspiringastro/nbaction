@@ -55,5 +55,5 @@ runs:
         message: Show GitHub Actions logo
         committer_name: Github Actions
         committer_email: actions@github.com
-        add: .
+        add: [ '${{ inputs.nbtarget }}', '${{ inputs.nbdoc }}' ]
 
