@@ -1,2 +1,7 @@
 pytest
 jupyterlab
+numpy
+pandas
+torch
+matplotlib
+
