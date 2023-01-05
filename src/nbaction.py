@@ -33,9 +33,8 @@ for s in all_sources:
         continue
     basename = os.path.basename(s)
     f, extn = os.path.splitext(basename)
-    print(basename, f, extn)
+
     if extn.lower() == NOTEBOOK_EXTN:
-        print (f'Notebook file detected: {basename}')
         ti = os.path.join(repo_workspace, target_path)
         tif = os.path.join(ti, basename)
         di = os.path.join(repo_workspace, doc_path)
@@ -51,9 +50,11 @@ for s in all_sources:
         processed.append(s)
         processed.append(tif)
         processed.append(dif)
-        print(processed)
 
-print(processed)
-print(f"::set-output processed={' '.join(processed)}")
+
+if "GITHUB_OUTPUT" in os.environ :
+    with open(os.environ["GITHUB_OUTPUT"], "a") as f :
+        print("{0}={1}".format(processed, ' '.join(processed)), file=f)
+
 
 
