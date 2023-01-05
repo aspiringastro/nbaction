@@ -40,6 +40,7 @@ runs:
       shell: bash
     - name: Update notebooks
       run: |
+          pwd
           python -m pip install nbconvert nbformat
           [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nbcommon }}
           mkdir -p ${{ inputs.nboutput }}
@@ -56,5 +57,5 @@ runs:
         committer_name: Github Actions
         commit: --signoff
         add: ${{ inputs.nboutput }}/*.ipynb ${{ inputs.nbhtml }}/*.html
-
+        cwd: $GITHUB_WORKSPACE
 
