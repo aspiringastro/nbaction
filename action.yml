@@ -67,6 +67,6 @@ runs:
         message: Show github actions logo
         committer_name: Github Actions
         commit: --signoff
-        add: $GIT_PR_FILES
+        add: ['${{ inputs.nbhtml }}/*', '${{ inputs.nboutput }}/*']
         cwd: $GITHUB_WORKSPACE
 
