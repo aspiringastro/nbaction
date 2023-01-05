@@ -46,7 +46,7 @@ runs:
       shell: bash
     - name: Run nbaction
       id: nbaction
-      run: python src/nbaction.py
+      run: python src/nbaction.py >> $GITHUB_OUTPUT
       shell: bash
     - name: commit updated files
       uses: EndBug/add-and-commit@v9
