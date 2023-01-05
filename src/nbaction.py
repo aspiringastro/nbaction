@@ -28,11 +28,19 @@ doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", 'target/do
 all_sources = set([ os.path.join(repo_workspace, f) for f in sources ])
 processed = []
 
+print(all_sources)
+print(f'Workspace: {repo_workspace}')
+print(f'sources = {sources}')
+print(f'target_path={target_path}')
+print(f'doc_path={doc_path}')
+
 for s in all_sources:
     if '.ipynb_checkpoints' in s:
         continue
     basename = os.path.basename(s)
     f, extn = os.path.splitext(basename)
+    print(basename, f, extn)
+
     if extn.lower() == NOTEBOOK_EXTN:
         sif = os.path.join(repo_workspace, s)
         ti = os.path.join(repo_workspace, target_path)
@@ -50,6 +58,7 @@ for s in all_sources:
         processed.add(sif)
         processed.add(tif)
         processed.add(dif)
+        print(processed)
 
 print("processed=", ' '.join(map(str, processed)))
 
