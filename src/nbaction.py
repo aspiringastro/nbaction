@@ -59,6 +59,7 @@ for s in all_sources:
         processed.append(dif)
         print(processed)
 
-print("processed=", ' '.join(map(str, processed)))
+print(processed)
+print("processed=", ' '.join(processed))
 
 
