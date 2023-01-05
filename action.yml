@@ -48,7 +48,7 @@ runs:
         git config user.name "GitHub Actions"
         for file in ${{ steps.nbaction.outputs.processed }}; do
           echo "Adding $file to PR"
-          git add file
+          git add $file
         done
       shell: bash
 
