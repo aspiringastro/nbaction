@@ -28,12 +28,6 @@ doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", 'target/do
 all_sources = set([ os.path.join(repo_workspace, f) for f in sources ])
 processed = []
 
-print(all_sources)
-print(f'Workspace: {repo_workspace}')
-print(f'sources = {sources}')
-print(f'target_path={target_path}')
-print(f'doc_path={doc_path}')
-
 for s in all_sources:
     if '.ipynb_checkpoints' in s:
         continue
@@ -60,6 +54,6 @@ for s in all_sources:
         print(processed)
 
 print(processed)
-print("processed=", ' '.join(processed))
+print(f"::set-output processed={' '.join(processed)}")
 
 
