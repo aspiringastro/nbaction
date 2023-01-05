@@ -49,12 +49,16 @@ runs:
           mkdir -p ${{ inputs.nbhtml }}
           GIT_PR_FILES=
           for n in ${{ inputs.nbinput }}/*.ipynb; do \
-            GIT_PR_FILES="$n $GIT_PR_FILES"
-            jupyter nbconvert --to notebook --execute "$n" --output-dir=${{ inputs.nboutput }}/; \
+            GIT_PR_FILES="$n $GIT_PR_FILES" \
+            nbout=$GITHUB_WORKSPACE/${{ inputs.nboutput }} \
+            mkdir -p $nbout \
+            jupyter nbconvert --to notebook --execute "$n" --output-dir=$nbout; \
           done
           for n in ${{ inputs.nboutput }}/*.ipynb; do \
-            GIT_PR_FILES="$n $GIT_PR_FILES"
-            jupyter nbconvert --to html "$n" --output-dir=${{ inputs.nbhtml }}/; \
+            nbout=$GITHUB_WORKSPACE/${{ inputs.nbhtml }} \
+            mkdir -p $nbout \
+            GIT_PR_FILES="$n $GIT_PR_FILES" \
+            jupyter nbconvert --to html "$n" --output-dir=$nbout; \
           done
           echo "GIT_PR_FILES=$GIT_PR_FILES" >> $GITHUB_ENV
           echo "Workspace: $GITHUB_WORKSPACE Processed: $GIT_PR_FILES"
