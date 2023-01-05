@@ -37,7 +37,7 @@ runs:
         python-version: '3.10'
         # caching pip dependencies
         cache: 'pip'
-    - name: Update Dependencies and Environment variable
+    - name: Update Dependencies and env variables
       run: |
         python -m pip install --upgrade pip -r requirements.txt
         echo "NB_SOURCE_PATH=${{ inputs.nbsource }}" >> $GITHUB_ENV
@@ -52,7 +52,8 @@ runs:
       uses: EndBug/add-and-commit@v9
       with:
         default_author: github_actions
-        message: Show github actions logo
+        message: Show GitHub Actions logo
         committer_name: Github Actions
-        commit: --signoff
+        committer_email: actions@github.com
+        add: .
 
