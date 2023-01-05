@@ -55,9 +55,9 @@ for s in all_sources:
         exec_notebook(sif, tif)
         publish_notebook(tif, dif)
 
-        processed.add(sif)
-        processed.add(tif)
-        processed.add(dif)
+        processed.append(sif)
+        processed.append(tif)
+        processed.append(dif)
         print(processed)
 
 print("processed=", ' '.join(map(str, processed)))
