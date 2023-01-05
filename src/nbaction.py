@@ -22,7 +22,7 @@ sources = os.path.join(repo_workspace, os.environ.get("NB_SOURCES"))
 target_path = os.path.join(repo_workspace, os.environ.get("NB_TARGET_PATH", 'target/note'))
 doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", 'target/doc'))
 
-all_sources = set([ os.path.join(repo_workspace, os.path.dirname(f)) for f in sources ])
+all_sources = set([ os.path.join(repo_workspace, f) for f in sources ])
 processed = []
 
 for s in all_sources:
