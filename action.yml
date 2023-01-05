@@ -55,6 +55,6 @@ runs:
         message: Show GitHub Actions logo
         committer_name: Github Actions
         committer_email: actions@github.com
-        add: '${{ inputs.nbtarget }}//* ${{ inputs.nbdoc }}//* ${{ inputs.nbsource }}//*'
+        add: '${{ inputs.nbtarget }}/* ${{ inputs.nbdoc }}/* ${{ inputs.nbsource }}/*'
 
 
