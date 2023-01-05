@@ -2,8 +2,8 @@
 name: Test nbaction 
 on: 
   push:
-    # paths:
-      # - '**.ipynb'
+    paths:
+      - '**.ipynb'
 jobs:
   build-notebooks:
     runs-on: ubuntu-latest
