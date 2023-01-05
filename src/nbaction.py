@@ -3,17 +3,18 @@ import os
 import os.path
 import glob
 import subprocess
+from pathlib import Path
 
-def exec_notebooks(src_path, target_path):
-    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "notebook", "--execute", "--output-dir=" + target_path, src_path]
+def exec_notebook(src, target):
+    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "notebook", "--execute", "--output=" + target, src ]
     subprocess.run(cmd)
 
-def clean_notebooks(src_path):
-    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--clear-output", src_path ]
+def clean_notebook(src):
+    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--clear-output", src ]
     subprocess.run(cmd)
 
-def publish_notebooks(src_path, doc_path):
-    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to", "html", "--output-dir=" + doc_path,  src_path ]
+def publish_notebook(src, target):
+    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to", "html", "--output=" + target,  src ]
     subprocess.run(cmd)
 
 repo_workspace = os.environ.get("GITHUB_WORKSPACE", '.')
@@ -27,18 +28,24 @@ processed = []
 for s in all_sources:
     if '.ipynb_checkpoints' in s:
         continue
-    si = os.path.join(repo_workspace, s, "*.ipynb")
+    f = Path(s).stem
+    basename = os.path.basename(s)
+    sif = os.path.join(repo_workspace, s)
     ti = os.path.join(repo_workspace, target_path)
+    tif = os.path.join(ti, basename)
     di = os.path.join(repo_workspace, doc_path)
+    dif = os.path.join(di, f + ".html")
+
     os.makedirs(ti, exist_ok=True)
     os.makedirs(di, exist_ok=True)
 
-    clean_notebooks(si)
-    exec_notebooks(si, ti)
-    publish_notebooks(os.path.join(ti, "*.ipynb"), di)
-    for sif in os.walk(si): processed.add(sif)
-    for tif in os.walk(os.path.join(ti,"*.ipynb")): processed.add(sif)
-    for dif in os.walk(os.path.join(di,"*.html")): processed.add(dif)
+    clean_notebook(sif)
+    exec_notebook(sif, tif)
+    publish_notebook(tif, dif)
+
+    processed.add(sif)
+    processed.add(tif)
+    processed.add(dif)
 
 print("processed=", ' '.join(map(str, processed)))
 
