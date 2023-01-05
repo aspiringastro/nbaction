@@ -1,9 +1,8 @@
 # src/nbaction.py
+import sys
 import os
 import os.path
-import glob
 import subprocess
-from pathlib import Path
 
 NOTEBOOK_EXTN = ".ipynb"
 HTML_EXTN = ".html"
@@ -51,10 +50,10 @@ for s in all_sources:
         processed.append(tif)
         processed.append(dif)
 
-
 if "GITHUB_OUTPUT" in os.environ :
     with open(os.environ["GITHUB_OUTPUT"], "a") as f :
-        print("{0}={1}".format(processed, ' '.join(processed)), file=f)
+        print("{0}={1}".format("processed", ' '.join(processed)), file=f)
+        print("{0}={1}".format("processed", ' '.join(processed)), file=sys.stdout)
 
 
 
