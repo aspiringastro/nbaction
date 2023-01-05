@@ -5,15 +5,15 @@ import glob
 import subprocess
 
 def exec_notebooks(src_path, target_path):
-    cmd = ["echo", "jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "notebook", "--execute", src_path, "--output-dir=", target_path ]
+    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "notebook", "--execute", src_path, "--output-dir=", target_path ]
     subprocess.run(cmd)
 
 def clean_notebooks(src_path):
-    cmd = ["echo", "jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--clear-output", src_path ]
+    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--clear-output", src_path ]
     subprocess.run(cmd)
 
 def publish_notebooks(src_path, doc_path):
-    cmd = ["echo", "jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "html", src_path, "--output-dir=", doc_path ]
+    cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "html", src_path, "--output-dir=", doc_path ]
     subprocess.run(cmd)
 
 repo_workspace = os.environ.get("GITHUB_WORKSPACE", '.')
