@@ -41,8 +41,8 @@ for s in all_sources:
     f, extn = os.path.splitext(basename)
     print(basename, f, extn)
 
-    if extn.lower() == NOTEBOOK_EXTN:
-        sif = os.path.join(repo_workspace, s)
+    if extn == NOTEBOOK_EXTN:
+        print (f'Notebook file detected: {basename}')
         ti = os.path.join(repo_workspace, target_path)
         tif = os.path.join(ti, basename)
         di = os.path.join(repo_workspace, doc_path)
@@ -51,11 +51,11 @@ for s in all_sources:
         os.makedirs(ti, exist_ok=True)
         os.makedirs(di, exist_ok=True)
 
-        clean_notebook(sif)
-        exec_notebook(sif, tif)
+        clean_notebook(s)
+        exec_notebook(s, tif)
         publish_notebook(tif, dif)
 
-        processed.append(sif)
+        processed.append(s)
         processed.append(tif)
         processed.append(dif)
         print(processed)
