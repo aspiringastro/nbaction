@@ -57,8 +57,7 @@ runs:
             jupyter nbconvert --to html "$n" --output-dir=${{ inputs.nbhtml }}/; \
           done
           echo "GIT_PR_FILES=$GIT_PR_FILES" >> $GITHUB_ENV
-          echo "Workspace: $GITHUB_WORKSPACE Processed: $GIT_PR_FILES" >> $GITHUB_OUTPUT
-          echo 
+          echo "Workspace: $GITHUB_WORKSPACE Processed: $GIT_PR_FILES"
       shell: bash
     - name: commit updated files
       uses: EndBug/add-and-commit@v9
