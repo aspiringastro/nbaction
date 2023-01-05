@@ -41,7 +41,7 @@ runs:
     - name: Update notebooks
       run: |
           python -m pip install nbconvert nbformat
-          [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nboutput }}
+          [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nbcommon }}
           mkdir -p ${{ inputs.nboutput }}
           mkdir -p ${{ inputs.nbhtml }}
           for n in ${{ inputs.nbinput }}/*.ipynb; do jupyter nbconvert --to notebook --execute "$n" --output-dir=${{ inputs.nboutput }}/; done
