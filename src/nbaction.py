@@ -40,8 +40,7 @@ for s in all_sources:
     basename = os.path.basename(s)
     f, extn = os.path.splitext(basename)
     print(basename, f, extn)
-
-    if extn == NOTEBOOK_EXTN:
+    if extn.lower() == 'ipynb':
         print (f'Notebook file detected: {basename}')
         ti = os.path.join(repo_workspace, target_path)
         tif = os.path.join(ti, basename)
