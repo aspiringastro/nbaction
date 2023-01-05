@@ -5,7 +5,7 @@ import glob
 import subprocess
 from pathlib import Path
 
-NOTEBOOK_EXTN = ".pynb"
+NOTEBOOK_EXTN = ".ipynb"
 HTML_EXTN = ".html"
 
 def exec_notebook(src, target):
@@ -40,7 +40,7 @@ for s in all_sources:
     basename = os.path.basename(s)
     f, extn = os.path.splitext(basename)
     print(basename, f, extn)
-    if extn.lower() == 'ipynb':
+    if extn.lower() == NOTEBOOK_EXTN:
         print (f'Notebook file detected: {basename}')
         ti = os.path.join(repo_workspace, target_path)
         tif = os.path.join(ti, basename)
