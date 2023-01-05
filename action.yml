@@ -49,12 +49,5 @@ runs:
       run: python src/nbaction.py
       shell: bash
     - name: commit updated files
-      uses: EndBug/add-and-commit@v9
-      with:
-        default_author: github_actions
-        message: Show GitHub Actions logo
-        committer_name: Github Actions
-        committer_email: actions@github.com
-        add: '${{ inputs.nbtarget }}/* ${{ inputs.nbdoc }}/* ${{ inputs.nbsource }}/*'
-
+      uses: peter-evans/create-pull-request@v4
 
