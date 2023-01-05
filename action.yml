@@ -47,12 +47,13 @@ runs:
           [ -z "${{ inputs.nboutput }}" ] && echo "No common dependencies" || python -m pip install ${{ inputs.nbcommon }}
           mkdir -p ${{ inputs.nboutput }}
           mkdir -p ${{ inputs.nbhtml }}
+          GIT_PR_FILES=
           for n in ${{ inputs.nbinput }}/*.ipynb; do \
-            GIT_PR_FILES = "$n $GIT_PR_FILES"
+            GIT_PR_FILES="$n $GIT_PR_FILES"
             jupyter nbconvert --to notebook --execute "$n" --output-dir=${{ inputs.nboutput }}/; \
           done
           for n in ${{ inputs.nboutput }}/*.ipynb; do \
-            GIT_PR_FILES = "$n $GIT_PR_FILES"
+            GIT_PR_FILES="$n $GIT_PR_FILES"
             jupyter nbconvert --to html "$n" --output-dir=${{ inputs.nbhtml }}/; \
           done
           echo "GIT_PR_FILES=$GIT_PR_FILES" >> $GITHUB_ENV
