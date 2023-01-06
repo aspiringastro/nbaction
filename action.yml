@@ -3,24 +3,24 @@ name: 'Notebook Publish Github Action'
 description: 'A Github Action that takes a sequence of notebooks and executes, then publishes them in specified folders'
 inputs:
   nbsource:
-    description: 'Notebook source files'
+    description: 'Notebook source files (space delimited files changed in the pull request)'
     required: true
   nbtarget:
     description: 'Notebook target folder name (contains executed notebooks)'
     required: true
-    default: 'target/note'
+    default: 'publish/notebook'
   nbdoc:
     description: 'Notebook target folder name for HTML (contains converted html docs)'
     required: true
-    default: 'target/doc'
+    default: 'publish/doc'
   nbcommon:
     description: 'Notebook common dependencies that are expected to be present instead of installed within the notebook'
     required: false
     default: ''
 outputs:
-  processed:
-    description: 'list of processed output files'
-    value: ${{ steps.nbaction.outputs.processed }}
+  published:
+    description: 'list of published output files'
+    value: ${{ steps.nbaction.outputs.published }}
 
 runs:
   using: 'composite'
@@ -41,14 +41,5 @@ runs:
     - name: Run nbaction
       id: nbaction
       run: python src/nbaction.py
-      shell: bash
-    - name: Commit generated files
-      run: |
-        git config user.email "action@github.com"
-        git config user.name "GitHub Actions"
-        for file in ${{ steps.nbaction.outputs.processed }}; do
-          echo "Adding $file to PR"
-          git add $file
-        done
       shell: bash
 
