@@ -19,13 +19,13 @@ jobs:
         uses: ./ # replace with aspiringastro/nbaction@v1
         with:
           nbsource: '${{ steps.pr.outputs.all_changed_files }}'
-          nbtarget: 'executed' # specify destination that is not part of .gitignore in your repo
-          nbdoc: 'docs'
+          nbtarget: A'publish/notebooks' # specify destination that is not part of .gitignore in your repo
+          nbdoc: 'publish/docs'
           nbcommon: 'numpy pandas matplotlib'
       - name: commit updated files
         uses: EndBug/add-and-commit@v9
         with:
           default_author: github_actions
-          message: Show github actions logo
+          message: Show GitHub Actions logo
           committer_name: Github Actions
           commit: --signoff
