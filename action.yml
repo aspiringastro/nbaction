@@ -42,6 +42,7 @@ runs:
       shell: bash
     - name: Run nbaction
       id: nbaction
-      run: python src/nbaction.py
+      working-directory: ${{ github.action_path }}
+      run: python $GITHUB_ACTION_PATH/src/nbaction.py
       shell: bash
 
