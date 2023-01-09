@@ -22,8 +22,8 @@ def publish_notebook(src, target):
 # Main
 repo_workspace = os.environ.get("GITHUB_WORKSPACE", '.')
 sources = os.environ.get("NB_SOURCES", '').split(' ')
-target_path = os.path.join(repo_workspace, os.environ.get("NB_TARGET_PATH", 'publish/notebook'))
-doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", 'publish/doc'))
+target_path = os.path.join(repo_workspace, os.environ.get("NB_TARGET_PATH", "publish/notebook"))
+doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", "publish/doc"))
 print(f'GITHUB Repo workspace: {repo_workspace}')
 print(f'Notebook Sources     : {sources}')
 print(f'Target Path          : {target_path}')

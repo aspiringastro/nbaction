@@ -19,9 +19,9 @@ jobs:
         uses: ./ # replace with aspiringastro/nbaction@v1
         with:
           nbsource: '${{ steps.pr.outputs.all_changed_files }}'
-          nbtarget: A'publish/notebooks' # specify destination that is not part of .gitignore in your repo
-          nbdoc: 'publish/docs'
-          nbcommon: 'numpy pandas matplotlib'
+          nbtarget: publish/notebooks # specify destination that is not part of .gitignore in your repo
+          nbdoc: publish/docs
+          nbcommon: numpy pandas matplotlib
       - name: commit updated files
         uses: EndBug/add-and-commit@v9
         with:
