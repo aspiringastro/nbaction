@@ -5,6 +5,7 @@ import os.path
 import subprocess
 
 NOTEBOOK_EXTN = ".ipynb"
+HTML_EXTN = ".html"
 
 def exec_notebook(src, target):
     cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "notebook", "--execute", "--output=" + target, src ]
