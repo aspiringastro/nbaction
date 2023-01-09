@@ -2,6 +2,9 @@
 name: 'Notebook Publish Github Action'
 description: 'A Github Action that takes a sequence of notebooks and executes, then publishes them in specified folders'
 inputs:
+  nbworkspace:
+    description: 'Notebook workspace'
+    required: true
   nbsource:
     description: 'Notebook source files (space delimited files changed in the pull request)'
     required: true
@@ -35,11 +38,13 @@ runs:
       working-directory: ${{ github.action_path }}
       run: |
         env
+        ls ${{github.workspace}}
         python -m pip install --upgrade pip -r requirements.txt
         echo "NB_WORKSPACE=${{ inputs.nbworkspace }}" >> $GITHUB_ENV
         echo "NB_SOURCES=${{ inputs.nbsource }}" >> $GITHUB_ENV
         echo "NB_TARGET_PATH=${{ inputs.nbtarget }}" >> $GITHUB_ENV
         echo "NB_DOC_PATH=${{ inputs.nbdoc }}" >> $GITHUB_ENV
+        ls ${{ inputs.nbworkspace }}
       shell: bash
     - name: Run nbaction
       id: nbaction
