@@ -36,9 +36,9 @@ for s in sources:
     basename = os.path.basename(s)
     f, _ = os.path.splitext(basename)
     sif = os.path.join(repo_workspace, s)
-    ti = os.path.join(repo_workspace, target_path, os.path.dirname(s))
+    ti = os.path.join(target_path, os.path.dirname(s))
     tif = os.path.join(ti, basename)
-    di = os.path.join(repo_workspace, doc_path, os.path.dirname(s))
+    di = os.path.join(doc_path, os.path.dirname(s))
     dif = os.path.join(di, f + HTML_EXTN)
 
     os.makedirs(ti, exist_ok=True)
