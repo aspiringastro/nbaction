@@ -5,19 +5,18 @@ import os.path
 import subprocess
 
 NOTEBOOK_EXTN = ".ipynb"
-HTML_EXTN = ".html"
 
 def exec_notebook(src, target):
     cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to",  "notebook", "--execute", "--output=" + target, src ]
-    return subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    return subprocess.run(cmd)
 
 def clean_notebook(src):
     cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--clear-output", src ]
-    return subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    return subprocess.run(cmd)
 
 def publish_notebook(src, target):
     cmd = ["jupyter", "nbconvert", "--ExecutePreprocessor.timeout=600", "--to", "html", "--output=" + target,  src ]
-    return subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    return subprocess.run(cmd)
 
 # Main
 repo_workspace = os.environ.get("NB_WORKSPACE", '.')
@@ -49,10 +48,10 @@ for s in sources:
         print(f"ERROR: clean_notebook {basename} args:{sif} failed with code {result.returncode}")
     result = exec_notebook(sif, tif)
     if result.returncode != 0:
-        print(f"ERROR: exec_notebook {basename} -> {tif} args:{sif}, {tif} failed with code {result.returncode}")
+        print(f"ERROR: exec_notebook {sif} -> {tif} args:{sif}, {tif} failed with code {result.returncode}")
     result = publish_notebook(tif, dif)
     if result.returncode != 0:
-        print(f"ERROR: publish_notebook {basename} -> {dif} args:{tif}, {dif} failed with code {result.returncode}")
+        print(f"ERROR: publish_notebook {tif} -> {dif} args:{tif}, {dif} failed with code {result.returncode}")
 
     processed.append(sif)
     processed.append(tif)
