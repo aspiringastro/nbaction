@@ -16,10 +16,11 @@ jobs:
         uses: tj-actions/changed-files@v35
       - name: Run nbaction
         id: commit
-        uses: ./ # replace with aspiringastro/nbaction@v1
+        uses: ./ # replace with aspiringastro/nbaction@v1.0.2
         with:
+          nbworkspace: $GITHUB_WORKSPACE
           nbsource: '${{ steps.pr.outputs.all_changed_files }}'
-          nbtarget: publish/notebooks # specify destination that is not part of .gitignore in your repo
+          nbtarget: publish/notebooks
           nbdoc: publish/docs
           nbcommon: numpy pandas matplotlib
       - name: commit updated files

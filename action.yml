@@ -36,6 +36,7 @@ runs:
       run: |
         env
         python -m pip install --upgrade pip -r requirements.txt
+        echo "NB_WORKSPACE=${{ inputs.nbworkspace }}" >> $GITHUB_ENV
         echo "NB_SOURCES=${{ inputs.nbsource }}" >> $GITHUB_ENV
         echo "NB_TARGET_PATH=${{ inputs.nbtarget }}" >> $GITHUB_ENV
         echo "NB_DOC_PATH=${{ inputs.nbdoc }}" >> $GITHUB_ENV

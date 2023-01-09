@@ -20,26 +20,21 @@ def publish_notebook(src, target):
     return subprocess.run(cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
 # Main
-repo_workspace = os.environ.get("GITHUB_WORKSPACE", '.')
-sources = os.environ.get("NB_SOURCES", '').split(' ')
+repo_workspace = os.environ.get("NB_WORKSPACE", '.')
+sources = set([ s for s in os.environ.get("NB_SOURCES", '').split(' ') if s.endswith(NOTEBOOK_EXTN) ])
 target_path = os.path.join(repo_workspace, os.environ.get("NB_TARGET_PATH", "publish/notebook"))
 doc_path = os.path.join(repo_workspace, os.environ.get("NB_DOC_PATH", "publish/doc"))
-print(f'GITHUB Repo workspace: {repo_workspace}')
+print(f'Notebook Workspace   : {repo_workspace}')
 print(f'Notebook Sources     : {sources}')
 print(f'Target Path          : {target_path}')
 print(f'Documentation Path   : {doc_path}')
-all_sources = set(sources)
 processed = []
 
-for s in all_sources:
+for s in sources:
     if '.ipynb_checkpoints' in s:
         continue
     basename = os.path.basename(s)
-    f, extn = os.path.splitext(basename)
-
-    if extn.lower() != NOTEBOOK_EXTN:
-        continue
-
+    f, _ = os.path.splitext(basename)
     sif = os.path.join(repo_workspace, s)
     ti = os.path.join(repo_workspace, target_path, os.path.dirname(s))
     tif = os.path.join(ti, basename)
